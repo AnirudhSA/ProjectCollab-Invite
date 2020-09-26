@@ -5,13 +5,43 @@ const request = require("request");
 const jwt = require("jsonwebtoken");
 const http = require("http")
 const app = require("express")();
+const bodyParser = require("body-parser")
+const sgMail = require("@sendgrid/mail")
+
+sgMail.setApiKey("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")
+
+const msg = {
+  "from" : {
+    "email" : "anican047@gmail.com",
+    "name" : "ReSHARE",
+  },
+  "subject" : "Forgot Password Authentication",
+  "personalizations" : [{
+      "to" : [{
+        "email" : ""
+      }],
+      "dynamic_template_data" :{
+        "link" : ""
+      }
+    }],
+  "template_id" : "d-3c11aed91bf54902b886152b0ffe2e8f",
+}
 
 
-app.post("/fp_email",(req,res)=>{
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://dynamic-links-demo-fbaa0.firebaseio.com"
+});
 
-var secretKey = "7^]'09===,.kllaksd62";
-var userToken = jwt.sign(req.body,secretKey,{algorithm : "HS256",expiresIn : 300});
-var deeplink = "https://reshare.com?route=forgotpassword&token="+userToken;
+app.use(bodyParser.json())
+
+app.post("/forgotPasswordEmail",async(req,res)=>{
+
+  console.log(req.body);
+msg.personalizations[0].to[0].email = req.body.email;
+// var secretKey = "7^]'09===,.kllaksd62";
+// var userToken = jwt.sign(req.body.email,secretKey,{algorithm : "HS256",expiresIn : 300});
+var deeplink = "https://reshare.com?route="+req.body.route+"&email="+req.body.email;
 var body = {
   "dynamicLinkInfo" : {
     "domainUriPrefix" : "https://anirudh99.page.link",
@@ -24,17 +54,14 @@ var body = {
     }
 }
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://dynamic-links-demo-fbaa0.firebaseio.com"
-});
+
 
 
 
 request({
 url : "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key="+API_KEY,
 method : "POST", json : true , body 
-},function(error,response){
+},async(error,response)=>{
     if(error){
         console.log("Error :",error);
     }
@@ -46,11 +73,17 @@ method : "POST", json : true , body
         else
         {
             console.log("Dynamic Link Successfully Created :",response.body);
+            msg.personalizations[0].dynamic_template_data.link = response.body.shortLink;
+            sgMail.send(msg);
         }
     }
 }
 );
 
+res.send({"message" : "Invitation was sent"})
 });
 
-app.listen(process.env.PORT||3000);
+const port = process.env.PORT||8000
+app.listen(port,()=>{
+  console.log(`Server is running on port ${port}`);
+});

@@ -1,2 +1,4 @@
 /.cph
 /node_modules
+/server/serviceAccountKey.json
+

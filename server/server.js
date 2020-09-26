@@ -1,14 +1,14 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("../server/serviceAccountKey.json");
-const API_KEY = "AIzaSyBjAape1jAvvv1mjfJZAi4NpaVeeNpjSpg";
 const request = require("request");
 const jwt = require("jsonwebtoken");
 const http = require("http")
 const app = require("express")();
 const bodyParser = require("body-parser")
 const sgMail = require("@sendgrid/mail")
+const keys = require("../server/config.json")
 
-sgMail.setApiKey("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")
+sgMail.setApiKey(keys.SENDGRID_API_KEY)
 
 const msg = {
   "from" : {
@@ -59,7 +59,7 @@ var body = {
 
 
 request({
-url : "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key="+API_KEY,
+url : "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key="+keys.FIREBASE_API_KEY,
 method : "POST", json : true , body 
 },async(error,response)=>{
     if(error){

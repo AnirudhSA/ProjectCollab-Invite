@@ -15,7 +15,7 @@ const msg = {
     "email" : "anican047@gmail.com",
     "name" : "ReSHARE",
   },
-  "subject" : "Forgot Password Authentication",
+  "subject" : "Invitation to join ReSHARE",
   "personalizations" : [{
       "to" : [{
         "email" : ""
@@ -35,13 +35,13 @@ admin.initializeApp({
 
 app.use(bodyParser.json())
 
-app.post("/forgotPasswordEmail",async(req,res)=>{
+app.post("/invite_email",async(req,res)=>{
 
   console.log(req.body);
 msg.personalizations[0].to[0].email = req.body.email;
 // var secretKey = "7^]'09===,.kllaksd62";
 // var userToken = jwt.sign(req.body.email,secretKey,{algorithm : "HS256",expiresIn : 300});
-var deeplink = "https://reshare.com?route="+req.body.route+"&email="+req.body.email;
+var deeplink = "https://reshare.com?route="+req.body.route+"&email="+req.body.email+"&projectID=";
 var body = {
   "dynamicLinkInfo" : {
     "domainUriPrefix" : "https://anirudh99.page.link",

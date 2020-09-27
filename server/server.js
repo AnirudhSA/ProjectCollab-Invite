@@ -41,7 +41,7 @@ app.post("/invite_email",async(req,res)=>{
 msg.personalizations[0].to[0].email = req.body.email;
 // var secretKey = "7^]'09===,.kllaksd62";
 // var userToken = jwt.sign(req.body.email,secretKey,{algorithm : "HS256",expiresIn : 300});
-var deeplink = "https://reshare.com?route="+req.body.route+"&email="+req.body.email+"&projectID=";
+var deeplink = "https://reshare.com?&email="+req.body.email+"&projectID="+req.body.projectID;
 var body = {
   "dynamicLinkInfo" : {
     "domainUriPrefix" : "https://anirudh99.page.link",

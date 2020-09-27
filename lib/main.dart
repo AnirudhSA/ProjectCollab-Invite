@@ -32,13 +32,13 @@ class _AppState extends State<StatefulApp> {
   }
 
   void sendEmail(String email) async {
-    var response = await httpClient.post(Uri.http("10.0.2.2:8000", "/forgotPasswordEmail"),
+    var response = await httpClient.post(Uri.http("10.0.2.2:8000", "/invite_email"),
         headers : {
           "Content-Type": "application/json",
           },
         body: jsonEncode({
           "email": email,
-          "route": "forgotPassword"
+          "projectID": "example"
           })
         );
     if (response.statusCode == 200) {

@@ -32,15 +32,12 @@ class _AppState extends State<StatefulApp> {
   }
 
   void sendEmail(String email) async {
-    var response = await httpClient.post(Uri.http("10.0.2.2:8000", "/invite_email"),
-        headers : {
-          "Content-Type": "application/json",
-          },
-        body: jsonEncode({
-          "email": email,
-          "projectID": "example"
-          })
-        );
+    var response =
+        await httpClient.post(Uri.http("10.0.2.2:8000", "/invite_email"),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode({"email": email, "projectID": "example"}));
     if (response.statusCode == 200) {
       var message = jsonDecode(response.body);
       print(message['message']);
@@ -49,6 +46,9 @@ class _AppState extends State<StatefulApp> {
   }
 
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class _AppState extends State<StatefulApp> {
         child: Column(
           children: [
             Container(
-                height: 106,
+                height: height * 0.1413,
                 padding: EdgeInsets.zero,
                 constraints: BoxConstraints(),
                 child: Row(
@@ -67,7 +67,10 @@ class _AppState extends State<StatefulApp> {
                   children: [
                     Container(
                       alignment: Alignment.bottomLeft,
-                      margin: EdgeInsets.only(left: 20, bottom: 20, top: 60),
+                      margin: EdgeInsets.only(
+                          left: width * 0.0556,
+                          bottom: height * 0.0267,
+                          top: height * 0.08),
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
@@ -77,17 +80,21 @@ class _AppState extends State<StatefulApp> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 12, left: 16, top: 49),
+                      margin: EdgeInsets.only(
+                          bottom: height * 0.016,
+                          left: width * 0.0444,
+                          top: height * 0.0586),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Create Sub-Collab",
-                              style: TextStyles.Heading_White),
+                              style: TextStyles()
+                                  .style(height, width, "heading_white")),
                           Container(
-                              margin: EdgeInsets.only(top: 8),
+                              margin: EdgeInsets.only(top: height * 0.0106),
                               child: Text(
                                 "in \"Face Detection Project\"",
-                                style: TextStyles.HierarchyIndicator_White,
+                                style: TextStyles().style(height,width,"hierarchyindicator_white"),
                                 textAlign: TextAlign.left,
                               ))
                         ],
@@ -98,15 +105,17 @@ class _AppState extends State<StatefulApp> {
                         child: Align(
                             alignment: Alignment.bottomRight,
                             child: Container(
-                              width: 86,
-                              height: 25,
-                              margin: EdgeInsets.only(bottom: 20, right: 20),
+                              width: width * 0.2388,
+                              height: height * 0.0333,
+                              margin: EdgeInsets.only(
+                                  bottom: height * 0.0267,
+                                  right: width * 0.0555),
                               child: FlatButton(
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.shrinkWrap,
                                   child: Text(
                                     "Next",
-                                    style: TextStyles.Button,
+                                    style: TextStyles().style(height, width, "button"),
                                   ),
                                   color: Color(0xFF44B887),
                                   onPressed: () {},
@@ -118,7 +127,8 @@ class _AppState extends State<StatefulApp> {
                   ],
                 )),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding:
+                  EdgeInsets.only(left: width * 0.0555, right: width * 0.0555),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -129,10 +139,11 @@ class _AppState extends State<StatefulApp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
+                    padding: EdgeInsets.only(
+                        top: height * 0.0213, bottom: height * 0.0213),
                     child: Text(
                       "Invite Participants to this Collab",
-                      style: TextStyles.Heading_Black,
+                      style: TextStyles().style(height, width, "heading_black"),
                     ),
                   ),
                   Row(
@@ -142,13 +153,13 @@ class _AppState extends State<StatefulApp> {
                         children: [
                           Text(
                             "Invite via E-mail",
-                            style: TextStyles.Heading_Black_Reg,
+                            style: TextStyles().style(height, width, "heading_black_reg"),
                           ),
                           Container(
-                              margin: EdgeInsets.only(top: 8),
+                              margin: EdgeInsets.only(top: height * 0.0106),
                               child: Text(
                                 "Invite link will be sent to the person",
-                                style: TextStyles.SubHeading_Grey,
+                                style: TextStyles().style(height, width, "subheading_grey"),
                               )),
                         ],
                       ),
@@ -156,8 +167,8 @@ class _AppState extends State<StatefulApp> {
                           child: Align(
                               alignment: Alignment.bottomRight,
                               child: Container(
-                                width: 82,
-                                height: 25,
+                                width: width * 0.2278,
+                                height: height * 0.0333,
                                 alignment: Alignment.centerRight,
                                 child: FlatButton(
                                   color: Color(0xFF0F4C81),
@@ -169,8 +180,8 @@ class _AppState extends State<StatefulApp> {
                                     _textController.clear();
                                   },
                                   child: Text("Add",
-                                      style:
-                                          TextStyles.HierarchyIndicator_White),
+                                      style: TextStyles()
+                                          .style(height, width, "hierarchyindicator_white")),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
@@ -179,35 +190,36 @@ class _AppState extends State<StatefulApp> {
                     ],
                   ),
                   Container(
-                    height: 24,
-                    margin: EdgeInsets.only(top: 8),
+                    height: height * 0.032,
+                    margin: EdgeInsets.only(top: height * 0.0106),
                     child: TextField(
                       controller: _textController,
                       autocorrect: false,
                       autofocus: false,
                       decoration: InputDecoration(
-                          hintStyle: TextStyles.SubHeading_Grey,
+                          hintStyle: TextStyles().style(height, width, "subheading_grey"),
                           hintText: "Enter E-mail address and click on Add"),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 16),
+                    margin: EdgeInsets.only(top: height * 0.0213),
                     child: Text(
                       "Invite via Search",
-                      style: TextStyles.Heading_Black_Reg,
+                      style: TextStyles().style(height, width, "heading_black_reg"),
                     ),
                   ),
                   Container(
-                    height: 23,
-                    margin: EdgeInsets.only(top: 16, bottom: 8),
+                    height: height * 0.0307,
+                    margin: EdgeInsets.only(
+                        top: height * 0.0213, bottom: height * 0.0107),
                     child: TextField(
                       autocorrect: false,
                       decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.search,
-                            size: 16.68,
+                            size: width * 0.0466,
                           ),
-                          hintStyle: TextStyles.SubHeading_Grey,
+                          hintStyle: TextStyles().style(height, width, "subheading_grey"),
                           hintText: "Search for a Profile Name"),
                     ),
                   ),
@@ -217,29 +229,31 @@ class _AppState extends State<StatefulApp> {
             Container(
                 color: Colors.white,
                 child: Divider(
-                  height: 4,
-                  thickness: 4,
+                  height: height * 0.0053,
+                  thickness: height * 0.0053,
                   color: Color(0x9996A7AF),
                 )),
             Container(
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(
+                    left: width * 0.0556, right: width * 0.0556),
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 16),
+                      margin: EdgeInsets.only(top: height * 0.0213),
                       child: Text(
-                        "Invited Participants (7)",
-                        style: TextStyles.Heading_Black,
+                        "Invited Participants (6)",
+                        style: TextStyles().style(height, width, "heading_black"),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      margin: EdgeInsets.only(
+                          top: height * 0.0107, bottom: height * 0.0107),
                       child: Text(
                         '''Request to join will be sent to the following people.\nTap to Remove''',
-                        style: TextStyles.SubHeading_Grey,
+                        style: TextStyles().style(height, width, "subheading_grey"),
                       ),
                     ),
                   ],
@@ -253,42 +267,44 @@ class _AppState extends State<StatefulApp> {
                     itemCount: 6,
                     itemBuilder: (context, index) {
                       return Container(
-                          padding: EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(
+                              left: width * 0.0556, right: width * 0.0556),
                           child: ListTile(
                             // dense: true,
                             // visualDensity: VisualDensity.compact,
                             contentPadding: EdgeInsets.zero,
                             leading: CircleAvatar(
-                              radius: 22.5,
+                              radius: width * 0.0625,
                               backgroundImage: NetworkImage(
                                   "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d0bc5131-9f3d-47bb-bfe5-0bb8077a4b67/ddbiyzr-a78f7e9b-f844-4ef4-9823-9d7d90164481.png/v1/fill/w_800,h_900,q_80,strp/nameless_king_by_tetramera_ddbiyzr-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD05MDAiLCJwYXRoIjoiXC9mXC9kMGJjNTEzMS05ZjNkLTQ3YmItYmZlNS0wYmI4MDc3YTRiNjdcL2RkYml5enItYTc4ZjdlOWItZjg0NC00ZWY0LTk4MjMtOWQ3ZDkwMTY0NDgxLnBuZyIsIndpZHRoIjoiPD04MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.hHRBnzvvWf45ak1wuWEZ5dFJr5gMVp96xTHy91GUyW4"),
                             ),
                             title: Text(
                               "Nameless King",
-                              style: TextStyles.ContactName,
+                              style: TextStyles().style(height, width, "contact_name"),
                             ),
                             subtitle: Container(
-                              margin: EdgeInsets.only(top: 10),
+                              margin: EdgeInsets.only(top: height * 0.0133),
                               child: Text("Dragonslayer at Unknown",
-                                  style: TextStyles.ContactOccupation),
+                                  style: TextStyles().style(height, width, "contact_occupation")),
                             ),
                             trailing: Container(
-                              padding: EdgeInsets.all(3),
+                              padding: EdgeInsets.all(width * 0.0083),
                               child: Text(
                                 "God of War",
-                                style: TextStyles.ContactPermission,
+                                style: TextStyles().style(height, width, "contact_permission"),
                               ),
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
                                   border: Border.all(
-                                      color: Color(0xFF44B887), width: 1)),
+                                      color: Color(0xFF44B887),
+                                      width: width * 0.0028)),
                             ),
                           ));
                     },
                     separatorBuilder: (context, index) {
                       return Divider(
-                        thickness: 1,
+                        thickness: height * 0.0013,
                       );
                     },
                   ),
@@ -301,36 +317,48 @@ class _AppState extends State<StatefulApp> {
 }
 
 class TextStyles {
-  static const Heading_White = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 18,
-      color: Color(0xFFFDFDFD));
-  static const HierarchyIndicator_White = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 12,
-      color: Color(0xFFFDFDFD));
-  static const Heading_Black = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 15,
-      color: Color(0xFF3E3E3E));
-  static const Heading_Black_Reg = TextStyle(
-      fontFamily: "Proxima-Nova-Reg", fontSize: 15, color: Color(0xFF3E3E3E));
-  static const Button = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 12,
-      color: Color(0xFFFDFDFD));
-  static const SubHeading_Grey = TextStyle(
-      fontFamily: "Proxima-Nova-Reg", fontSize: 12, color: Color(0x483E3E3E));
-  static const ContactName = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 16,
-      color: Color(0xFF2E2E2E));
-  static const ContactOccupation = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 13,
-      color: Color(0xFF3E3E3E));
-  static const ContactPermission = TextStyle(
-      fontFamily: "Proxima-Nova-Semibold",
-      fontSize: 13,
-      color: Color(0xFF44B887));
+  style(double height, double width, String option) {
+    switch (option) {
+      case "heading_white":
+        return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000067,
+            color: Color(0xFFFDFDFD));
+
+        case "hierarchyindicator_white" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000044,
+            color: Color(0xFFFDFDFD));
+
+        case "heading_black" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000059,
+            color: Color(0xFF3E3E3E));
+
+        case "heading_black_reg" : return TextStyle(
+            fontFamily: "Proxima-Nova-Reg",
+            fontSize: height * width * 0.000056,
+            color: Color(0xFF3E3E3E));
+        case "button" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000044,
+            color: Color(0xFFFDFDFD));
+        case "subheading_grey" : return TextStyle(
+            fontFamily: "Proxima-Nova-Reg",
+            fontSize: height * width * 0.000044,
+            color: Color(0x483E3E3E));
+        case "contact_name" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000059,
+            color: Color(0xFF2E2E2E));
+        case "contact_occupation" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000048,
+            color: Color(0xFF3E3E3E));
+        case "contact_permission" : return TextStyle(
+            fontFamily: "Proxima-Nova-Semibold",
+            fontSize: height * width * 0.000048,
+            color: Color(0xFF44B887));
+    }
+  }
 }
